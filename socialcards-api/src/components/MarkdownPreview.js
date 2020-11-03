@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState } from "react";
 
 export default function MarkdownPreview({ markdown }) {
   const portalStyle = {
@@ -20,16 +20,6 @@ export default function MarkdownPreview({ markdown }) {
    onmouseenter="this.style.color='black';" 
    onmouseleave="this.style.color='pink';"
   >TuckerTime</div>`);
-  const [preview2, setPreview2] = useState();
-  const [preview3, setPreview3] = useState();
-  const [preview4, setPreview4] = useState();
-  const previewRef = useRef();
-
-  function create1(strHTML) {
-    let preview_portal = document.querySelector("#div1");
-    // preview_portal.appendChild(createNode(strHTML));
-    preview_portal.innerHTML=(strHTML);
-  }
 
   function create2(strHTML) {
     let parsedMarkup = document.createRange().createContextualFragment(strHTML);
@@ -37,34 +27,8 @@ export default function MarkdownPreview({ markdown }) {
     previewportal2.appendChild(parsedMarkup);
   }
 
-  function create3(htmlSTR) {
-    let previewportal3 = document.querySelector("#div3");
-    let subDom = new DOMParser();
-    let new_child = subDom.parseFromString(htmlSTR, "text/html");
-
-    previewportal3.innerHTML = new_child;
-    previewRef.current = new_child;
-  }
-
-  function create4(markdown) {
-    let previewportal4 = document.querySelector("#div4");
-    let parsedMarkup = document.createDocumentFragment();
-    parsedMarkup.innerHTML = markdown;
-    let preview_portal = document.querySelector("#previewPortal");
-    previewportal4.append(parsedMarkup);
-    console.log({ preview_portal });
-  }
-
-  // function handleLogMarkup(){
-  //   console.log({ parsedMarkup });
-  //   console.log({ newref });
-  // }
-
   useEffect(() => {
-    create1(markdown);
     create2(markdown);
-    create3(markdown);
-    create4(markdown);
   }, [markdown]);
 
   return (
@@ -72,24 +36,9 @@ export default function MarkdownPreview({ markdown }) {
       <section id="previewPortal" style={portalStyle}>
         {preview}
         <div style={{ border: "1rem solid black" }}>
-          <h2>create1</h2>
-          <div id="div1"></div>
-        </div>
-        <div style={{ border: "1rem solid black" }}>
           <h2>create2</h2>
           <div id="div2"></div>
         </div>
-        <div style={{ border: "1rem solid black" }}>
-          <h2>create3</h2>
-          <div id="div3"></div>
-        </div>
-        <div style={{ border: "1rem solid black" }}>
-          <h2>create4</h2>
-          <div id="div4"></div>
-        </div>
-
-        <p>{preview}</p>
-        <div ref={previewRef}></div>
       </section>
     </>
   );
